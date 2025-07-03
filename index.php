@@ -1,3 +1,9 @@
+<?php
+// Contoh penggunaan session untuk login check
+session_start();
+// Misal: $_SESSION['logged_in'] = true; diatur saat login berhasil
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,7 +14,266 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
+
+    <style>
+        /* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #0d6efd; /* Biru Bootstrap */
+    --dark-color: #1a1a1a;
+    --light-color: #f8f9fa;
+    --font-family: 'Poppins', sans-serif;
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.7;
+    color: #444;
+    background-color: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #333;
+}
+
+/* --- Navbar --- */
+.navbar {
+    transition: background-color 0.4s ease, padding 0.4s ease;
+    padding: 1rem 0;
+    background-color: transparent;
+}
+.navbar.scrolled {
+    background-color: rgba(26, 26, 26, 0.9);
+    backdrop-filter: blur(5px);
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.navbar-brand {
+    font-size: 1.5rem;
+}
+.navbar .nav-link {
+    transition: color 0.3s ease;
+    font-weight: 400;
+}
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    position: relative;
+    height: 120vh;
+    overflow: hidden;
+    padding-top: 80px; /* Menurunkan konten sedikit */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.video-bg-blurry {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    transform: translateX(-50%) translateY(-50%) scale(1.1);
+    filter: blur(20px);
+}
+.main-video-wrapper {
+    display: inline-block;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+.video-bg-clear {
+    width: 100%;
+    max-width: 280px; /* Ukuran video portrait di tengah */
+    height: auto;
+    border-radius: 15px;
+    z-index: -1;
+}
+.hero-title {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.hero-subtitle {
+    color: #e0e0e0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+
+/* --- Layanan Section --- */
+.service-card-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 15px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 350px;
+    border: none;
+}
+.service-card-image:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.service-card-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1));
+    transition: background 0.3s ease;
+}
+.service-card-image:hover::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
+}
+.service-card-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+}
+.service-card-image:hover .service-card-content {
+    transform: translateY(-5px);
+}
+.service-card-image .icon-circle {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.service-card-image h4, .service-card-image p {
+    color: white;
+}
+
+/* --- Portfolio --- */
+.portfolio-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    background: #000;
+}
+.portfolio-wrap img {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.portfolio-wrap:hover img {
+    transform: scale(1.1);
+    opacity: 0.4;
+}
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.portfolio-wrap:hover .portfolio-overlay {
+    opacity: 1;
+}
+.portfolio-info h4 {
+    color: white;
+    font-weight: bold;
+}
+.portfolio-info p {
+    color: #ddd;
+}
+.portfolio-info::after {
+    content: '\f00e'; /* Ikon search/plus dari Font Awesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 2rem;
+    margin-top: 1rem;
+    display: block;
+}
+
+/* --- Project Video Section (Updated) --- */
+.project-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16; /* Memaksa bentuk portrait */
+    border-radius: 20px;
+    overflow: hidden; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    background: #000; /* Latar belakang jika video gagal load */
+}
+.project-video-wrapper .video-bg-blurry.project {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Penting agar video menutupi area */
+    filter: blur(15px) brightness(0.6);
+    transform: scale(1.05); /* Sedikit zoom untuk menyembunyikan tepi */
+    z-index: 1;
+}
+.project-video-wrapper .video-bg-clear.project {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Penting agar video pas di dalam wrapper */
+    padding: 10px; /* Jarak antara video utama dengan tepi */
+    border-radius: 20px; /* Menyesuaikan radius dengan wrapper */
+}
+
+
+/* --- Klien Section --- */
+.client-logo img {
+    max-height: 50px;
+    width: auto;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+}
+.client-logo:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* --- Animasi --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+    </style>
 </head>
 <body>
 

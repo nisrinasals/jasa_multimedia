@@ -72,7 +72,7 @@ $result = mysqli_query($koneksi, $query);
                         echo "<td>" . htmlspecialchars($row['status']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['tanggal_booking']) . "</td>";
                         echo "<td>
-                                <a href='update_status.php?id=" . $row['id'] . "' class='btn btn-warning btn-sm'>Update Status</a> 
+                                <a href='update_status.php?id=" . $row['id'] . "' class='btn btn-warning btn-sm'>Update</a> 
                                 <a href='delete_booking.php?id=" . $row['id'] . "' class='btn btn-danger btn-sm ms-2' onclick='return confirm(\"Are you sure you want to delete this booking?\");'>Delete</a>
                               </td>";
                         echo "</tr>";
